@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor // Qué hace???
+@RequiredArgsConstructor // Anotación que genera un constructor para todos los campos que son final y @NonNull
 public class BreedService {
 
     private final BreedRepository breedRepository;
