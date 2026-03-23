@@ -40,7 +40,7 @@ public class Pet {
     private String customBreed;
 
     @Column(name = "birth_date")
-    private LocalDate brithDate;
+    private LocalDate birthDate;
 
     @Column(precision = 5, scale = 2)
     private BigDecimal weight;
