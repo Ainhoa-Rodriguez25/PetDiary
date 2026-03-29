@@ -9,27 +9,35 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration // Indica a Spring que se trata de una clase de configuración
-@EnableWebSecurity // Habilita configuración de seguridad web
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean // Se crea objeto de tipo PasswordEncoder par encriptar las contraseñas
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean // Aquí se configuran las reglas de seguridad de la aplicación y qué endpoints serán públicos y cuáles no
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Se deshabilita la protección de aplicaciones tradicionales con sesiones
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No se crean sesiones en el servidor (uso JWT)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register", "/api/auth/login", "/api/breeds", "/api/breeds/**", "/api/pets", "/api/pets/**", "/api/medications", "/api/medications/**"
+                        .requestMatchers(
+                                "/api/auth/register",
+                                "/api/auth/login",
+                                "/api/breeds",
+                                "/api/breeds/**",
+                                "/api/pets",
+                                "/api/pets/**",
+                                "/api/medications",
+                                "/api/medications/**"
                         ).permitAll()
                         .anyRequest().authenticated()
-                ); // Se indican qué peticiones pueden ser con autenticación y cuáles no
+                );
 
         return http.build();
     }
