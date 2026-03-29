@@ -26,10 +26,11 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No se crean sesiones en el servidor (uso JWT)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/register", "/api/auth/login", "/api/breeds", "/api/breeds/**", "/api/pets", "/api/pets/**", "/api/medications", "/api/medications/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 ); // Se indican qué peticiones pueden ser con autenticación y cuáles no
 
-        return http.build(); // Devuelve la configuración de seguridad construida
+        return http.build();
     }
 }
