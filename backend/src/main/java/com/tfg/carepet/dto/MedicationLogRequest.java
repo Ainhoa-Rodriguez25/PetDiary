@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MedicationLogRequest {
 
-    @NotNull(message = "El Id del medicamento es obligatorio")
+    //@NotNull(message = "El Id del medicamento es obligatorio")
     private Long medicationId;
 
     private String givenAt;
