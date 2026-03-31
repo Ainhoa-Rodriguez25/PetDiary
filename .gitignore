@@ -1,0 +1,6 @@
+# Archivos temporales de Microsoft Office
+~$*
+*.tmp
+*.bak
+Thumbs.db
+.DS_Store
