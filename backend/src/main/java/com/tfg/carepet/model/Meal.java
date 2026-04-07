@@ -24,14 +24,11 @@ public class Meal {
     @Column(name = "pet_id", nullable = false)
     private Long petId;
 
-    @Column(nullable = false, length = 200)
-    private String name;
-
-    @Column(nullable = false, length = 100)
-    private String amount;
+    @Column(name = "meals_per_day", nullable = false)
+    private Integer mealsPerDay;
 
     @Column(name = "first_meal_time", nullable = false)
-    private LocalTime timeOfDay;
+    private LocalTime firstTime;
 
     @Column(name = "second_meal_time")
     private LocalTime secondTime;
