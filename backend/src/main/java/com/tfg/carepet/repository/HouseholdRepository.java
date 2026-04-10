@@ -16,7 +16,7 @@ public interface HouseholdRepository extends JpaRepository<Household, Long> {
     List<Household> findHouseholdsByCreatedByUserId(@Param("userId") Long userId);
 
     // Buscar hogares creados por un usuario
-    List<Household> findByCreatedBy(Long createdBy);
+    List<Household> findByCreatedByUserId(Long createdBy);
 
     // Verificar si un hogar existe
     boolean existsById(Long id);
