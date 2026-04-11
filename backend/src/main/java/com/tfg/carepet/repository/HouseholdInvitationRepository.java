@@ -13,6 +13,9 @@ public interface HouseholdInvitationRepository extends JpaRepository<HouseholdIn
     // Buscar invitaciones pendientes de un usuario (por email)
     List<HouseholdInvitation> findByInvitedUserEmailAndStatus(String invitedUserEmail, HouseholdInvitation.Status status);
 
+    // Buscar invitaciones enviadas por un usuario
+    List<HouseholdInvitation> findByHouseholdId(Long householdId);
+
     // Buscar invitaciones de un hogar
     List<HouseholdInvitation> findByInvitedByUserId(Long invitedByUserId);
 
