@@ -1,0 +1,21 @@
+# Backend (Java/Spring Boot)
+backend/target/
+backend/.idea/
+backend/*.iml
+backend/.DS_Store
+
+# Frontend (React/Node)
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.DS_Store
+
+# Logs
+*.log
+
+# Archivos temporales de Microsoft Office
+~$*
+*.tmp
+*.bak
+Thumbs.db
+.DS_Store
