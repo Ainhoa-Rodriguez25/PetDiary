@@ -1,15 +1,21 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
+
 function App() {
   return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-md">
-          <h1 className="text-3xl font-bold text-blue-600 mb-4">
-            🐾 CarePet
-          </h1>
-          <p className="text-gray-600">
-            Frontend configurado correctamente con Tailwind CSS
-          </p>
-        </div>
-      </div>
+      <BrowserRouter>
+          <Routes>
+              <Route path="/" component={<HomePage />} />
+              <Route path="/login" component={<LoginPage />} />
+              <Route path="/register" component={<RegisterPage />} />
+              <Route path="/dashboard" component={<DashboardPage />} />
+              <Route path="*" component={<NotFoundPage />} />
+          </Routes>
+      </BrowserRouter>
   );
 }
 
