@@ -9,11 +9,11 @@ function App() {
   return (
       <BrowserRouter>
           <Routes>
-              <Route path="/" component={<HomePage />} />
-              <Route path="/login" component={<LoginPage />} />
-              <Route path="/register" component={<RegisterPage />} />
-              <Route path="/dashboard" component={<DashboardPage />} />
-              <Route path="*" component={<NotFoundPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="*" element={<NotFoundPage />} />
           </Routes>
       </BrowserRouter>
   );
