@@ -1,20 +1,42 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage.jsx";
-import LoginPage from "./pages/LoginPage.jsx";
-import RegisterPage from "./pages/RegisterPage.jsx";
-import DashboardPage from "./pages/DashboardPage.jsx";
-import NotFoundPage from "./pages/NotFoundPage.jsx";
+import { AuthProvider } from './context/AuthContext';
+
+// Componentes del layout
+import Navbar from './components/layout/Navbar';
+import PrivateRoute from "./components/common/PrivateRoute";
+
+// Páginas
+import HomePage from './pages/HomePage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import RegisterPage from './pages/RegisterPage.jsx';
+import DashboardPage from './pages/DashboardPage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 function App() {
   return (
       <BrowserRouter>
-          <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+          <AuthProvider>
+              <div className="min-h-screen bg-gray-50">
+                  <Navbar />
+
+                  <main>
+                      <Routes>
+                          {/*Rutas públicas*/}
+                          <Route path="/" element={<HomePage />} />
+                          <Route path="/login" element={<LoginPage />} />
+                          <Route path="/register" element={<RegisterPage />} />
+
+                          {/*Rutas protegidas*/}
+                          <Route path="/dashboard" element={
+                              <PrivateRoute>
+                                <DashboardPage />
+                              </PrivateRoute>}
+                          />
+                          <Route path="*" element={<NotFoundPage />} />
+                      </Routes>
+                  </main>
+              </div>
+          </AuthProvider>
       </BrowserRouter>
   );
 }
