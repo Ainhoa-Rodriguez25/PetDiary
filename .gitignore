@@ -1,3 +1,18 @@
+# IDEs y Editores (Esto cubrirá tanto raíz, como backend y frontend)
+.idea/
+*.iml
+.vscode/
+
+# Dependencias y builds
+node_modules/
+dist/
+build/
+target/
+
+# Variables de entorno y Logs
+.env
+*.log
+
 # Archivos temporales de Microsoft Office
 ~$*
 *.tmp
