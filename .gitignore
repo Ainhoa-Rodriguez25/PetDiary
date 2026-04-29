@@ -1,21 +1,18 @@
-# Backend (Java/Spring Boot)
-backend/target/
-backend/.idea/
-backend/*.iml
-backend/.DS_Store
+# IDEs y Editores (Esto cubrirá tanto raíz, como backend y frontend)
+.idea/
+*.iml
+.vscode/
 
-# Frontend (React/Node)
-frontend/node_modules/
-frontend/dist/
-frontend/.env
-frontend/.DS_Store
+# Dependencias y builds
+node_modules/
+dist/
+build/
+target/
 
-# Logs
+# Variables de entorno y Logs
+.env
 *.log
 
-# Archivos temporales de Microsoft Office
-~$*
-*.tmp
-*.bak
-Thumbs.db
+# Archivos de Sistema
 .DS_Store
+Thumbs.db
