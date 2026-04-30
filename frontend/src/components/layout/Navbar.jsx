@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 function Navbar() {
     // Se obtiene todo la informacion necesaria del contexto
-    const { user, logout, isAthenticated } = useAuth();
+    const { user, logout, isAuthenticated } = useAuth();
 
     // useNavigate devuelve una función que se almacena en "navigate"
     const navigate = useNavigate();
@@ -19,14 +19,14 @@ function Navbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Lado izquierdo del navbar */}
-                    <Link to="/" className="flex items-center gap-2">
+                    <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2">
                         <span className="text-2xl">🐾</span>
                         <span className="text-xl font-bold text-indigo-600">CarePet</span>
                     </Link>
 
                     {/* Lado derecho del navbar */}
                     <div className="flex items-center gap-4">
-                        {isAthenticated ? (
+                        {isAuthenticated ? (
                             <>
                                 <span className="text-sm text-gray-600">
                                     Hola, {' '}
