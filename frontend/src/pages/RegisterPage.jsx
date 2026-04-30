@@ -52,19 +52,19 @@ function RegisterPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-8">
+        <div className="min-h-screen bg-page-bg flex items-center justify-center px-4 py-8">
             <div className="max-w-md w-full">
 
                 <div className="text-center mb-8">
                     <span className="text-5xl">🐾</span>
-                    <h1 className="text-3xl font-bold text-gray-900 mt-4">CarePet</h1>
-                    <p className="text-gray-600 mt-2">Crea tu cuenta</p>
+                    <h1 className="text-3xl font-bold text-text-dark mt-4">CarePet</h1>
+                    <p className="text-text-medium mt-2">Crea tu cuenta</p>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+                <div className="bg-white rounded-2xl border border-border p-8">
 
                     {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+                        <div className="bg-primary-bg border border-border-dark text-primary px-4 py-3 rounded-lg mb-6 text-sm">
                             {error}
                         </div>
                     )}
@@ -72,36 +72,36 @@ function RegisterPage() {
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {/*Campo nombre*/}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                            <label className="block text-sm font-medium text-text-dark mb-1">Nombre completo</label>
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark placeholder:text-text-light"
                                 placeholder="Tu nombre"
                                 disabled={loading}
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <label className="block text-sm font-medium text-text-dark mb-1">Email</label>
                             <input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark placeholder:text-text-light"
                                 placeholder="tu@email.com"
                                 disabled={loading}
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                            <label className="block text-sm font-medium text-text-dark mb-1">Contraseña</label>
                             <input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark placeholder:text-text-light"
                                 placeholder="Mínimo 6 caracteres"
                                 disabled={loading}
                             />
@@ -109,12 +109,12 @@ function RegisterPage() {
 
                         {/*Campo confirmar contraseña*/}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Confirmar contraseña</label>
+                            <label className="block text-sm font-medium text-text-dark mb-1">Confirmar contraseña</label>
                             <input
                                 type="password"
                                 value={confirmPass}
                                 onChange={(e) => setConfirmPass(e.target.value)}
-                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark placeholder:text-text-light"
                                 placeholder="Repite tu contraseña"
                                 disabled={loading}
                             />
@@ -123,14 +123,14 @@ function RegisterPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            className="w-full bg-primary text-white py-2.5 rounded-lg font-medium hover:bg-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                             {loading ? 'Creando cuenta...' : 'Crear cuenta'}
                         </button>
                     </form>
 
-                    <p className="text-center text-sm text-gray-600 mt-6">
+                    <p className="text-center text-sm text-text-medium mt-6">
                         ¿Ya tienes cuenta?{' '}
-                        <Link to="/login" className="text-indigo-600 hover:text-indigo-800 font-medium">Inicia sesión</Link>
+                        <Link to="/login" className="text-primary hover:text-primary-hover font-medium">Inicia sesión</Link>
                     </p>
                 </div>
             </div>
