@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+@theme {
+    /* --- COLORES PRIMARIOS (terracota) --- */
+    /* El color principal de la app: botones, links, elementos activos */
+    --color-primary:       #C8613A;
+    --color-primary-hover: #E8845A;  /* Al pasar el ratón por encima */
+    --color-primary-soft:  #F0997B;  /* Versión suave para iconos y detalles */
+    --color-primary-bg:    #FAECE7;  /* Fondo muy suave para cards destacadas */
+
+    /* --- FONDO GENERAL --- */
+    /* El fondo de toda la app — blanco roto que no fatiga */
+    --color-page-bg: #FDF4F0;
+
+    /* --- ACENTO VERDE --- */
+    /* Solo para estados positivos: medicación al día, confirmaciones */
+    --color-accent:     #4A6741;
+    --color-accent-bg:  #EAF0E8;
+
+    /* --- TEXTO --- */
+    --color-text-dark:    #2C2416;  /* Títulos y texto principal */
+    --color-text-medium:  #6B5B4E;  /* Texto secundario y descripciones */
+    --color-text-light:   #A89080;  /* Placeholders y texto deshabilitado */
+
+    /* --- BORDES --- */
+    --color-border:       #F0D5CC;  /* Bordes de cards y separadores */
+    --color-border-dark:  #E0B5A8;  /* Bordes con más énfasis */
+}
