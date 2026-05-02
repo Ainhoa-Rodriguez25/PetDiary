@@ -43,7 +43,7 @@ const householdService = {
     getHouseholdMembers: async (id) => {
         const response = await api.get(`/households/${id}/members`);
         return response.data;
-    }
+    },
 };
 
 export default householdService;
