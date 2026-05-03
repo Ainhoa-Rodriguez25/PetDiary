@@ -49,16 +49,17 @@ function PetFormPage() {
     const [household, setHousehold] = useState(null);
 
     const [loading, setLoading] = useState(false);
-    const [loadingData, setLoadingData] = useState(true);
+    const [loadingData, setLoadingData] = useState(false);
     const [error, setError] = useState('');
 
     // Carga inicial
     useEffect(() => {
         const loadInitialData = async () => {
             try {
-                setLoading(true);
+                setLoadingData(true);
 
                 const households = await householdService.getHouseholdByUser(user.id);
+
                 if (households && households.length > 0) {
                     setHousehold(households[0]);
 
@@ -94,8 +95,8 @@ function PetFormPage() {
                     }
                 }
             } catch (err) {
-                setError('Error al cargar los datos. Inténtelo de nuevo.');
-                console.error(err);
+                console.error('Error en loadInitialData:', err)
+                setError('Error al cargar los datos: ' + (err.message || 'desconocido'));
             } finally {
                 setLoadingData(false);
             }
