@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 // Funcion auxiliar que devuelve la especie
 const getSpeciesEmoji = (species) => {
     const emojis = {
-        'DOG': '🐶',
-        'CAT': '🐱',
-        'BIRD': '🐦',
-        'RABBIT': '🐰',
-        'FISH': '🐟',
-        'HAMSTER': '🐹',
-        'REPTILE': '🦎',
-        'OTHER': '🐾',
+        'dog': '🐶',
+        'cat': '🐱',
+        'bird': '🐦',
+        'rabbit': '🐰',
+        'fish': '🐟',
+        'hamster': '🐹',
+        'reptile': '🦎',
+        'other': '🐾',
     };
     // Si especie no está, se devuelve emoji por defecto
     return emojis[species] || '🐾';

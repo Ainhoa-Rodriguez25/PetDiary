@@ -6,14 +6,14 @@ import householdService from "../../services/householdService.js";
 import PetsPage from "./PetsPage.jsx";
 
 const SPECIES_OPTIONS = [
-    { value: 'DOG',     label: '🐶 Perro'   },
-    { value: 'CAT',     label: '🐱 Gato'    },
-    { value: 'BIRD',    label: '🐦 Pájaro'  },
-    { value: 'RABBIT',  label: '🐰 Conejo'  },
-    { value: 'FISH',    label: '🐟 Pez'     },
-    { value: 'HAMSTER', label: '🐹 Hámster' },
-    { value: 'REPTILE', label: '🦎 Reptil'  },
-    { value: 'OTHER',   label: '🐾 Otro'    },
+    { value: 'dog',     label: '🐶 Perro'   },
+    { value: 'cat',     label: '🐱 Gato'    },
+    { value: 'bird',    label: '🐦 Pájaro'  },
+    { value: 'rabbit',  label: '🐰 Conejo'  },
+    { value: 'fish',    label: '🐟 Pez'     },
+    { value: 'hamster', label: '🐹 Hámster' },
+    { value: 'reptile', label: '🦎 Reptil'  },
+    { value: 'other',   label: '🐾 Otro'    },
 ];
 
 const GENDER_OPTIONS = [
