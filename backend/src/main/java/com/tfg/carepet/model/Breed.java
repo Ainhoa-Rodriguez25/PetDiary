@@ -25,6 +25,12 @@ public class Breed {
 
     public enum Species {
         dog,
-        cat
+        cat,
+        bird,
+        rabbit,
+        fish,
+        hamster,
+        reptile,
+        other
     }
 }
