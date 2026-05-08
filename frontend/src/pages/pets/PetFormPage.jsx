@@ -17,8 +17,9 @@ const SPECIES_OPTIONS = [
 ];
 
 const GENDER_OPTIONS = [
-    { value: 'MALE',   label: 'Macho'  },
-    { value: 'FEMALE', label: 'Hembra' },
+    { value: 'male',   label: 'Macho'  },
+    { value: 'female', label: 'Hembra' },
+    { value: 'unknown', label: 'Desconocido' },
 ];
 
 function PetFormPage() {
