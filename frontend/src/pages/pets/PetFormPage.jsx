@@ -135,6 +135,8 @@ function PetFormPage() {
     // Envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('household:', household);
+        console.log('formData:', formData);
 
         // Validaciones básicas
         if (!formData.name.trim()) {
@@ -155,7 +157,7 @@ function PetFormPage() {
                 householdId: household?.id,
                 name: formData.name.trim(),
                 species: formData.species,
-                breedId: formData.breedId || null,
+                breedId: formData.breedId && formData.breedId !== 'custom' ? parseInt(formData.breedId) : null,
                 customBreed: formData.customBreed.trim() || null,
                 birthDate: formData.birthDate || null,
                 weight: formData.weight ? parseFloat(formData.weight) : null,
@@ -173,10 +175,11 @@ function PetFormPage() {
             // Tras guardar, se vuelve a lista de mascotas
             navigate('/pets');
         } catch (err) {
-            const msg = err.response?.data?.error || 'Error al guardar la mascota.';
-            setError(msg);
+            const msg = err.response?.data?.message || err.response?.data || 'Error al guardar la mascota.';
+            setError(typeof msg === 'string' ? msg : 'Error al guardar la mascota.');
+            console.error('Error completo:', err.response?.data);
         } finally {
-            setLoadingData(false);
+            setLoading(false);
         }
     };
 
