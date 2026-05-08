@@ -65,7 +65,13 @@ public class Pet {
 
     public enum Species {
         dog,
-        cat
+        cat,
+        bird,
+        rabbit,
+        fish,
+        hamster,
+        reptile,
+        other
     }
 
     public enum Gender {
