@@ -14,7 +14,14 @@ const getSpeciesEmoji = (species) => {
     };
     // Si especie no está, se devuelve emoji por defecto
     return emojis[species] || '🐾';
-}
+};
+
+// Opciones género
+const genderLabel = {
+    'male': 'Macho',
+    'female': 'Hembra',
+    'unknown': 'Desconocido',
+};
 
 // Funcion auxiliar para calcular edad del animal a partir de fecha de nacimiento
 const calculateAge = (birthDate) => {
@@ -82,11 +89,11 @@ function PetCard({ pet, onDelete }) {
                         </span>
                     </div>
                 )}
-                {pet.gender && (
+                {pet.gender && pet.gender !== 'unknown' && (
                     <div className="flex flex-col">
                         <span className="text-xs text-text-light">Género</span>
                         <span className="text-sm font-medium text-text-dark">
-                            {pet.gender === 'MALE' ? 'Macho' : 'Hembra'}
+                            {genderLabel[pet.gender] || pet.gender}
                         </span>
                     </div>
                 )}
