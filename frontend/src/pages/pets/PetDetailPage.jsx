@@ -4,12 +4,29 @@ import petService from '../../services/petService';
 
 const getSpeciesEmoji = (species) => {
     const emojis = {
-        'DOG': '🐶', 'CAT': '🐱', 'BIRD': '🐦',
-        'RABBIT': '🐰', 'FISH': '🐟', 'HAMSTER': '🐹',
-        'REPTILE': '🦎', 'OTHER': '🐾',
+        'dog': '🐶', 'cat': '🐱', 'bird': '🐦',
+        'rabbit': '🐰', 'fish': '🐟', 'hamster': '🐹',
+        'reptile': '🦎', 'other': '🐾',
     };
     return emojis[species] || '🐾';
 };
+
+const genderLabel = {
+    'male': 'Macho',
+    'female': 'Hembra',
+    'unknown': 'Desconocido',
+};
+
+const speciesLabel = {
+    'dog':     'Perro',
+    'cat':     'Gato',
+    'bird':    'Pájaro',
+    'rabbit':  'Conejo',
+    'fish':    'Pez',
+    'hamster': 'Hámster',
+    'reptile': 'Reptil',
+    'other':   'Otro',
+}
 
 const calculateAge = (birthDate) => {
     if (!birthDate) return null;
@@ -117,7 +134,7 @@ function PetDetailPage() {
                                 {pet.name}
                             </h1>
                             <p className="text-text-medium mt-0.5">
-                                {pet.breed?.name || pet.customBreed || pet.species}
+                                {pet.breed?.name || pet.customBreed || speciesLabel[pet.species] || pet.species}
                             </p>
                         </div>
                     </div>
@@ -147,8 +164,8 @@ function PetDetailPage() {
                 </h2>
 
                 <div className="space-y-3">
-                    <InfoRow label="Especie"   value={pet.species}  />
-                    <InfoRow label="Género"    value={pet.gender === 'MALE' ? 'Macho' : pet.gender === 'FEMALE' ? 'Hembra' : null} />
+                    <InfoRow label="Especie"   value={speciesLabel[pet.species] || pet.species}  />
+                    <InfoRow label="Género"    value={pet.gender && pet.gender !== 'unknown' ? genderLabel[pet.gender] : null} />
                     <InfoRow label="Fecha de nacimiento" value={formatDate(pet.birthDate)} />
                     <InfoRow label="Edad"      value={calculateAge(pet.birthDate)} />
                     <InfoRow label="Peso"      value={pet.weight ? `${pet.weight} kg` : null} />
