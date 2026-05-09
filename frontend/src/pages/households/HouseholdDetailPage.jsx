@@ -120,7 +120,7 @@ function HouseholdDetailPage() {
             {/* MODAL DE INVITACIÓN */}
             {showInviteModal && (
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-25 flex items-center justify-center z-50 px-4"
+                    className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 px-4"
                     onClick={() => setShowInviteModal(false)}
                 >
                     {/* e.stopPropagation() evita que el clic dentro del modal
