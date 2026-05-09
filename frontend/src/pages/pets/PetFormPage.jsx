@@ -48,6 +48,7 @@ function PetFormPage() {
 
     // Primer hogar del usuario
     const [households, setHouseholds] = useState([]);
+    const [household, setHousehold] = useState(null);
 
     const [loading, setLoading] = useState(false);
     const [loadingData, setLoadingData] = useState(false);
@@ -67,7 +68,7 @@ function PetFormPage() {
                     // Si se está creando, ya es posible poner el householdId
                     if (!isEditing) {
                         // Por defecto el primer hogar
-                        setHouseholds(householdsData[0]);
+                        setHousehold(householdsData[0]);
                         setFormData((prev) => ({
                             ...prev,
                             householdId: householdsData[0].id,
@@ -75,7 +76,7 @@ function PetFormPage() {
                     } else {
                         // En edición, se busca el hogar al que corresponde la mascota
                         const currentHousehold = householdsData.find((h) => h.id === formData.householdId);
-                        setHouseholds(currentHousehold || householdsData[0]);
+                        setHousehold(currentHousehold || householdsData[0]);
                     }
                 }
 
@@ -161,7 +162,7 @@ function PetFormPage() {
             setError('');
 
             const petData = {
-                householdId: households?.id,
+                householdId: household?.id,
                 name: formData.name.trim(),
                 species: formData.species,
                 breedId: formData.breedId && formData.breedId !== 'custom' ? parseInt(formData.breedId) : null,
