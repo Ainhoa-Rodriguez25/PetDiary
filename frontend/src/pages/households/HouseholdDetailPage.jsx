@@ -14,6 +14,15 @@ const roleLabel = {
     'MEMBER': 'Miembro',
 };
 
+const getSpeciesEmoji = (species) => {
+    const emojis = {
+        'dog': '🐶', 'cat': '🐱', 'bird': '🐦',
+        'rabbit': '🐰', 'fish': '🐟', 'hamster': '🐹',
+        'reptile': '🦎', 'other': '🐾',
+    };
+    return emojis[species] || '🐾';
+};
+
 const roleBadgeClass = {
     'OWNER':  'bg-primary-bg text-primary',
     'ADMIN':  'bg-accent-bg text-accent',
@@ -236,21 +245,37 @@ function HouseholdDetailPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-3">
                         {pets.map((pet) => (
-                            <PetCard
+                            <div
                                 key={pet.id}
-                                pet={pet}
-                                onDelete={async (petId) => {
-                                    try {
-                                        await petService.deletePet(petId);
-                                        setPets((prev) => prev.filter((p) => p.id !== petId));
-                                    } catch (err) {
-                                        setError('Error al eliminar la mascota.');
-                                        console.error(err);
-                                    }
-                                }}
-                            />
+                                className="flex items-center justify-between py-2 border-b border-border last:border-0"
+                            >
+                                <div className="flex items-center gap-3">
+                                    {/* Avatar con emoji de especie */}
+                                    <div className="w-9 h-9 rounded-full bg-primary-bg border border-border-dark flex items-center justify-center flex-shrink-0">
+                            <span className="text-lg">
+                                {getSpeciesEmoji(pet.species)}
+                            </span>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-text-dark">
+                                            {pet.name}
+                                        </p>
+                                        <p className="text-xs text-text-light">
+                                            {pet.breed?.name || pet.customBreed || pet.species}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Link al detalle de la mascota */}
+                                <Link
+                                    to={`/pets/${pet.id}`}
+                                    className="text-sm text-primary hover:text-primary-hover font-medium"
+                                >
+                                    Ver →
+                                </Link>
+                            </div>
                         ))}
                     </div>
                 )}
