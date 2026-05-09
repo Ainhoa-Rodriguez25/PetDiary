@@ -223,10 +223,23 @@ function HouseholdDetailPage() {
             </div>
 
             {/* LISTA DE MIEMBROS */}
-            <div className="bg-white rounded-xl border border-border p-6">
-                <h2 className="text-sm font-semibold text-text-light uppercase tracking-wide mb-4">
-                    Miembros del hogar
-                </h2>
+            <div className="bg-white rounded-xl border border-border p-6 mb-4">
+
+                {/* Cabecera con botón de invitar */}
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-sm font-semibold text-text-light uppercase tracking-wide">
+                        Miembros del hogar
+                    </h2>
+                    {/* Botón solo visible para OWNER y ADMIN */}
+                    {members.find(m => m.userId === user.id && ['OWNER', 'ADMIN'].includes(m.role)) && (
+                        <button
+                            onClick={() => setShowInviteModal(true)}
+                            className="text-sm text-primary hover:text-primary-hover font-medium"
+                        >
+                            + Invitar usuario
+                        </button>
+                    )}
+                </div>
 
                 {members.length === 0 ? (
                     <p className="text-text-medium text-sm text-center py-4">
@@ -240,18 +253,16 @@ function HouseholdDetailPage() {
                                 className="flex items-center justify-between py-2 border-b border-border last:border-0"
                             >
                                 <div className="flex items-center gap-3">
-                                    {/* Avatar con iniciales */}
                                     <div className="w-9 h-9 rounded-full bg-primary-bg border border-border-dark flex items-center justify-center flex-shrink-0">
-                                        <span className="text-sm font-medium text-primary">
-                                            {member.userName
-                                                ? member.userName.split(' ').map((n) => n[0]).join('').toUpperCase()
-                                                : '?'}
-                                        </span>
+                            <span className="text-sm font-medium text-primary">
+                                {member.userName
+                                    ? member.userName.split(' ').map((n) => n[0]).join('').toUpperCase()
+                                    : '?'}
+                            </span>
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium text-text-dark">
                                             {member.userName}
-                                            {/* Indicamos si es el usuario actual */}
                                             {member.userId === user.id && (
                                                 <span className="text-text-light font-normal ml-1">(tú)</span>
                                             )}
@@ -261,11 +272,9 @@ function HouseholdDetailPage() {
                                         </p>
                                     </div>
                                 </div>
-
-                                {/* Badge de rol */}
                                 <span className={`text-xs font-medium px-3 py-1 rounded-full ${roleBadgeClass[member.role] || 'bg-page-bg text-text-medium'}`}>
-                                    {roleLabel[member.role] || member.role}
-                                </span>
+                        {roleLabel[member.role] || member.role}
+                    </span>
                             </div>
                         ))}
                     </div>
