@@ -1,5 +1,5 @@
 import { useState} from "react";
-import invitationService from "./invitationService";
+import invitationService from "../../services/invitationService";
 import { useAuth } from "../../hooks/useAuth.js";
 
 // Roles que se ofrecen al invitar a alguien
