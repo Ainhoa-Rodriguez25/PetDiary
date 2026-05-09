@@ -2,10 +2,10 @@ import { NavLink } from 'react-router-dom';
 
 const menuItems = [
     { to: '/dashboard', icon: '🏠', label: 'Inicio'    },
+    { to: '/households', icon: '🏡', label: 'Hogares'   },
     { to: '/pets',      icon: '🐾', label: 'Mascotas'  },
     { to: '/meals',     icon: '🍽️', label: 'Comidas'   },
     { to: '/meds',      icon: '💊', label: 'Medicación'},
-    { to: '/walks',     icon: '🏃', label: 'Paseos'    },
 ];
 
 function BottomNav() {
