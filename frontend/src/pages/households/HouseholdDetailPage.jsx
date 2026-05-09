@@ -4,6 +4,9 @@ import { useAuth } from '../../hooks/useAuth';
 import householdService from '../../services/householdService';
 import hosuseholdService from "../../services/householdService";
 
+import petService from "../../services/petService.js";
+import PetCard from "../../components/pets/PetCard.jsx";
+
 // Roles
 const roleLabel = {
     'OWNER': 'Propietario',
@@ -24,6 +27,7 @@ function HouseholdDetailPage() {
 
     const [household, setHousehold] = useState(null);
     const [members, setMembers] = useState([]);
+    const [pets, setPets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -34,13 +38,15 @@ function HouseholdDetailPage() {
                 setError('');
 
                 // Se cargan hogar y miembros en paralelo
-                const [householdData, membersData] = await Promise.all([
+                const [householdData, membersData, petsData] = await Promise.all([
                     hosuseholdService.getHouseholdById(id),
                     householdService.getHouseholdMembers(id),
+                    petService.getPetsByHousehold(id),
                 ]);
 
                 setHousehold(householdData);
                 setMembers(membersData || []);
+                setPets(petsData || []);
             } catch (err) {
                 setError('No se pudo cargar el hogar.');
                 console.error(err);
@@ -203,6 +209,48 @@ function HouseholdDetailPage() {
                                     {roleLabel[member.role] || member.role}
                                 </span>
                             </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {/* MASCOTAS DEL HOGAR */}
+            <div className="bg-white rounded-xl border border-border p-6 mt-4">
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-sm font-semibold text-text-light uppercase tracking-wide">
+                        Mascotas del hogar
+                    </h2>
+                    <Link
+                        to="/pets/new"
+                        className="text-sm text-primary hover:text-primary-hover font-medium"
+                    >
+                        + Añadir mascota
+                    </Link>
+                </div>
+
+                {pets.length === 0 ? (
+                    <div className="text-center py-8">
+                        <span className="text-3xl">🐾</span>
+                        <p className="text-text-medium text-sm mt-2">
+                            No hay mascotas en este hogar
+                        </p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {pets.map((pet) => (
+                            <PetCard
+                                key={pet.id}
+                                pet={pet}
+                                onDelete={async (petId) => {
+                                    try {
+                                        await petService.deletePet(petId);
+                                        setPets((prev) => prev.filter((p) => p.id !== petId));
+                                    } catch (err) {
+                                        setError('Error al eliminar la mascota.');
+                                        console.error(err);
+                                    }
+                                }}
+                            />
                         ))}
                     </div>
                 )}
