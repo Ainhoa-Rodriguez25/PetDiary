@@ -231,37 +231,6 @@ function PetFormPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-5">
 
-                    {/* HOGAR */}
-                    <div>
-                        <label className="block text-sm font-medium text-text-dark mb-1">
-                            Hogar <span className="text-primary">*</span>
-                        </label>
-                        <select
-                            name="householdId"
-                            value={formData.householdId}
-                            onChange={(e) => {
-                                // Actualizamos householdId en formData Y el hogar activo
-                                const selected = households.find(
-                                    (h) => h.id === parseInt(e.target.value)
-                                );
-                                setHouseholds(selected || null);
-                                setFormData((prev) => ({
-                                    ...prev,
-                                    householdId: parseInt(e.target.value),
-                                }));
-                            }}
-                            className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark"
-                            disabled={loading}
-                        >
-                            <option value="">Selecciona un hogar...</option>
-                            {households.map((h) => (
-                                <option key={h.id} value={h.id}>
-                                    🏠 {h.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
                     {/*Nombre*/}
                     <div>
                         <label className="block text-sm font-medium text-text-dark mb-1">
@@ -278,7 +247,7 @@ function PetFormPage() {
                         />
                     </div>
 
-                    {/*Especio y género*/}
+                    {/*Especie y género*/}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-text-dark mb-1">
@@ -392,6 +361,37 @@ function PetFormPage() {
                                 disabled={loading}
                             />
                         </div>
+                    </div>
+
+                    {/* HOGAR */}
+                    <div>
+                        <label className="block text-sm font-medium text-text-dark mb-1">
+                            Hogar <span className="text-primary">*</span>
+                        </label>
+                        <select
+                            name="householdId"
+                            value={formData.householdId}
+                            onChange={(e) => {
+                                // Actualizamos householdId en formData Y el hogar activo
+                                const selected = households.find(
+                                    (h) => h.id === parseInt(e.target.value)
+                                );
+                                setHouseholds(selected || null);
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    householdId: parseInt(e.target.value),
+                                }));
+                            }}
+                            className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark"
+                            disabled={loading}
+                        >
+                            <option value="">Selecciona un hogar...</option>
+                            {households.map((h) => (
+                                <option key={h.id} value={h.id}>
+                                    🏠 {h.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     {/*Alergias*/}
