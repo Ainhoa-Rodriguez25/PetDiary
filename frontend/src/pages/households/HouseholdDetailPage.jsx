@@ -2,16 +2,21 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import householdService from '../../services/householdService';
-import hosuseholdService from "../../services/householdService";
-
 import petService from "../../services/petService.js";
-import PetCard from "../../components/pets/PetCard.jsx";
+import invitationService from "../../services/invitationService.js";
+import InviteForm from "../../components/households/InviteForm.jsx";
 
 // Roles
 const roleLabel = {
     'OWNER': 'Propietario',
     'ADMIN': 'Administrador',
     'MEMBER': 'Miembro',
+};
+
+const roleBadgeClass = {
+    'OWNER':  'bg-primary-bg text-primary',
+    'ADMIN':  'bg-accent-bg text-accent',
+    'MEMBER': 'bg-page-bg text-text-medium',
 };
 
 const getSpeciesEmoji = (species) => {
@@ -23,12 +28,6 @@ const getSpeciesEmoji = (species) => {
     return emojis[species] || '🐾';
 };
 
-const roleBadgeClass = {
-    'OWNER':  'bg-primary-bg text-primary',
-    'ADMIN':  'bg-accent-bg text-accent',
-    'MEMBER': 'bg-page-bg text-text-medium',
-};
-
 function HouseholdDetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -37,8 +36,11 @@ function HouseholdDetailPage() {
     const [household, setHousehold] = useState(null);
     const [members, setMembers] = useState([]);
     const [pets, setPets] = useState([]);
+    const [invitations, setInvitations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    const [showInviteModal, setShowInviteModal] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -47,15 +49,17 @@ function HouseholdDetailPage() {
                 setError('');
 
                 // Se cargan hogar y miembros en paralelo
-                const [householdData, membersData, petsData] = await Promise.all([
-                    hosuseholdService.getHouseholdById(id),
+                const [householdData, membersData, petsData, invitationsData] = await Promise.all([
+                    householdService.getHouseholdById(id),
                     householdService.getHouseholdMembers(id),
                     petService.getPetsByHousehold(id),
+                    invitationService.getInvitationsByHousehold(id),
                 ]);
 
                 setHousehold(householdData);
                 setMembers(membersData || []);
                 setPets(petsData || []);
+                setInvitations(invitationsData || []);
             } catch (err) {
                 setError('No se pudo cargar el hogar.');
                 console.error(err);
@@ -77,6 +81,16 @@ function HouseholdDetailPage() {
                 console.error(err);
             }
         }
+    };
+
+    const handleInviteSent = async () => {
+        try {
+            const invitationsData = await invitationService.getInvitationsByHousehold(id);
+            setInvitations(invitationsData || []);
+        } catch (err) {
+            console.error(err);
+        }
+        setShowInviteModal(false);
     };
 
     if (loading) {
@@ -102,6 +116,41 @@ function HouseholdDetailPage() {
 
     return (
         <div className="max-w-2xl mx-auto">
+
+            {/* MODAL DE INVITACIÓN */}
+            {showInviteModal && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4"
+                    onClick={() => setShowInviteModal(false)}
+                >
+                    {/* e.stopPropagation() evita que el clic dentro del modal
+                        se propague al overlay y lo cierre */}
+                    <div
+                        className="bg-white rounded-2xl border border-border p-6 w-full max-w-md"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Cabecera del modal */}
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-lg font-bold text-text-dark">
+                                Invitar usuario
+                            </h2>
+                            {/* Botón cerrar */}
+                            <button
+                                onClick={() => setShowInviteModal(false)}
+                                className="text-text-light hover:text-text-dark transition-colors text-xl leading-none"
+                            >
+                                ✕
+                            </button>
+                        </div>
+
+                        {/* El formulario de invitación */}
+                        <InviteForm
+                            householdId={id}
+                            onInviteSent={handleInviteSent}
+                        />
+                    </div>
+                </div>
+            )}
 
             {/* BOTÓN VOLVER */}
             <button
@@ -222,6 +271,37 @@ function HouseholdDetailPage() {
                     </div>
                 )}
             </div>
+
+            {/* INVITACIONES PENDIENTES */}
+            {invitations.filter(inv => inv.status === 'PENDING').length > 0 && (
+                <div className="bg-white rounded-xl border border-border p-6 mb-4">
+                    <h2 className="text-sm font-semibold text-text-light uppercase tracking-wide mb-4">
+                        Invitaciones pendientes
+                    </h2>
+                    <div className="space-y-3">
+                        {invitations
+                            .filter(inv => inv.status === 'PENDING')
+                            .map((inv) => (
+                                <div
+                                    key={inv.id}
+                                    className="flex items-center justify-between py-2 border-b border-border last:border-0"
+                                >
+                                    <div>
+                                        <p className="text-sm font-medium text-text-dark">
+                                            {inv.invitedUserEmail}
+                                        </p>
+                                        <p className="text-xs text-text-light">
+                                            {roleLabel[inv.roleOffered] || inv.roleOffered}
+                                        </p>
+                                    </div>
+                                    <span className="text-xs font-medium px-3 py-1 rounded-full bg-page-bg text-text-medium">
+                                        Pendiente
+                                    </span>
+                                </div>
+                            ))}
+                    </div>
+                </div>
+            )}
 
             {/* MASCOTAS DEL HOGAR */}
             <div className="bg-white rounded-xl border border-border p-6 mt-4">
