@@ -26,7 +26,7 @@ import InvitationsPage from "./pages/households/InvitationsPage.jsx";
 // Páginas de medicación
 import MedicationsPage      from './pages/medications/MedicationsPage.jsx';
 import MedicationDetailPage from './pages/medications/MedicationDetailPage.jsx';
-import MedicationFormPage   from './pages/medications/MedicationFormPage.jsx';
+import MedicationFormPage   from './pages/medications/MedicationsFormPage.jsx';
 
 function App() {
   return (
