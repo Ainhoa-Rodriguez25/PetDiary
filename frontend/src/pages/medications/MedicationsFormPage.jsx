@@ -57,7 +57,7 @@ function MedicationFormPage() {
                 setLoadingData(true);
 
                 // Cargamos mascotas para el selector
-                const householdsData = await householdService.getHouseholdsByUser(user.id);
+                const householdsData = await householdService.getHouseholdByUser(user.id);
                 if (householdsData && householdsData.length > 0) {
                     const petsData = await petService.getPetsByHousehold(householdsData[0].id);
                     setPets(petsData || []);
