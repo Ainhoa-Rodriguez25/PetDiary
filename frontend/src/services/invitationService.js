@@ -10,7 +10,7 @@ const invitationService = {
 
     // Obtener invitaciones pendientes del usuario actual
     getPendingInvitations: async (email) => {
-        const response = await api.get(`/households/invitatins/pending`, { params: { email } });
+        const response = await api.get(`/households/invitations/pending`, { params: { email } });
         return response.data;
     },
 
