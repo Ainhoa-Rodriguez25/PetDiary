@@ -4,7 +4,6 @@ import { useAuth } from '../hooks/useAuth';
 import petService from '../services/petService';
 import householdService from '../services/householdService';
 import PetCard from '../components/pets/PetCard';
-import InvitationService from "../services/invitationService.js";
 import invitationService from "../services/invitationService.js";
 
 const getTodayFormatted = () => {
@@ -37,15 +36,19 @@ function DashboardPage() {
                     const petsData = await petService.getPetsByHousehold(householdsData[0].id);
                     setPets(petsData || []);
                 }
+            } catch (err) {
+                console.error('Error cargando dashboard:', err);
+            }
 
+            try {
                 // Se cargan las invitaciones pendientes usando el email del usuario
                 const invitationsData = await invitationService.getPendingInvitations(user.email);
                 setPendingInvitations(invitationsData || []);
             } catch (err) {
-                console.error('Error cargando dashboard:', err);
-            } finally {
-                setLoading(false);
+                console.error('Error cargando invitaciones:', err);
             }
+
+            setLoading(false);
         };
 
         if (user?.id) loadData();
