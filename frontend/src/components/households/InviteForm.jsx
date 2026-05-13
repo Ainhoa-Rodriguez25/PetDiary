@@ -49,7 +49,7 @@ function InviteForm({ householdId, onInviteSent }) {
 
             await invitationService.inviteUser(householdId, user.id, {
                 invitedUserEmail: formData.invitedUserEmail.trim(),
-                roleOffered: formData.invitedUserEmail,
+                roleOffered: formData.roleOffered,
                 message: formData.message.trim() || null,
             });
 
