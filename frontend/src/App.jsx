@@ -21,6 +21,7 @@ import PetFormPage from "./pages/pets/PetFormPage.jsx";
 import HouseholdsPage from "./pages/households/HouseholdsPage.jsx";
 import HouseholdDetailPage from "./pages/households/HouseholdDetailPage.jsx";
 import HouseholdFormPage from "./pages/households/HouseholdFormPage.jsx";
+import InvitationsPage from "./pages/households/InvitationsPage.jsx";
 
 function App() {
   return (
@@ -116,6 +117,16 @@ function App() {
                                   <HouseholdFormPage />
                               </MainLayout>
                           </PrivateRoute>}
+                  />
+
+                  {/*Pagina para ver las invitaciones que tiene un usuario*/}
+                  <Route
+                      path="/invitations" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <InvitationsPage />
+                          </MainLayout>
+                      </PrivateRoute>}
                   />
 
                   <Route path="*" element={<NotFoundPage />} />
