@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import petService from '../services/petService';
 import householdService from '../services/householdService';
 import PetCard from '../components/pets/PetCard';
+import invitationService from "../services/invitationService.js";
 
 const getTodayFormatted = () => {
     return new Date().toLocaleDateString('es-ES', {
@@ -20,6 +21,7 @@ function DashboardPage() {
 
     const [pets, setPets] = useState([]);
     const [households, setHouseholds] = useState([]);
+    const [pendingInvitations, setPendingInvitations] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -36,9 +38,17 @@ function DashboardPage() {
                 }
             } catch (err) {
                 console.error('Error cargando dashboard:', err);
-            } finally {
-                setLoading(false);
             }
+
+            try {
+                // Se cargan las invitaciones pendientes usando el email del usuario
+                const invitationsData = await invitationService.getPendingInvitations(user.email);
+                setPendingInvitations(invitationsData || []);
+            } catch (err) {
+                console.error('Error cargando invitaciones:', err);
+            }
+
+            setLoading(false);
         };
 
         if (user?.id) loadData();
@@ -66,6 +76,31 @@ function DashboardPage() {
                     {getTodayFormatted()}
                 </p>
             </div>
+
+            {/*BANNER DE INVITACIONES PENDIENTES*/}
+            {pendingInvitations.length > 0 && (
+                <div className="bg-accent-bg border border-accent rounded-xl p-4 mb-6 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <span className="text-2xl">📩</span>
+                        <div>
+                            <p className="font-medium text-text-dark">
+                                {pendingInvitations.length === 1
+                                    ? 'Tienes 1 invitación pendiente'
+                                    : `Tienes ${pendingInvitations.length} invitaciones pendientes`}
+                            </p>
+                            <p className="text-sm text-text-medium">
+                                Alguien te ha invitado a unirte a un hogar
+                            </p>
+                        </div>
+                    </div>
+                    <Link
+                        to="/invitations"
+                        className="bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity flex-shrink-0"
+                    >
+                        Ver invitaciones
+                    </Link>
+                </div>
+            )}
 
             {/*Tarjetas resumen*/}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">

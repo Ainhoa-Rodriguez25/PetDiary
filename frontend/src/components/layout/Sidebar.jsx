@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/useAuth.js";
 // Los items del menú se definen como un array de objetos
 const menuItems = [
     { to: '/dashboard', icon: '🏠', label: 'Inicio'      },
+    { to: '/households', icon: '🏡', label: 'Hogares'   },
     { to: '/pets',      icon: '🐾', label: 'Mascotas'    },
     { to: '/meals',     icon: '🍽️', label: 'Comidas'     },
     { to: '/meds',      icon: '💊', label: 'Medicación'  },

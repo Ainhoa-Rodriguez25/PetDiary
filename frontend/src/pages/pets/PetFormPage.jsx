@@ -47,6 +47,7 @@ function PetFormPage() {
     const [breeds, setBreeds] = useState([]);
 
     // Primer hogar del usuario
+    const [households, setHouseholds] = useState([]);
     const [household, setHousehold] = useState(null);
 
     const [loading, setLoading] = useState(false);
@@ -59,17 +60,23 @@ function PetFormPage() {
             try {
                 setLoadingData(true);
 
-                const households = await householdService.getHouseholdByUser(user.id);
+                const householdsData = await householdService.getHouseholdByUser(user.id);
 
-                if (households && households.length > 0) {
-                    setHousehold(households[0]);
+                if (householdsData && householdsData.length > 0) {
+                    setHouseholds(householdsData);
 
                     // Si se está creando, ya es posible poner el householdId
                     if (!isEditing) {
+                        // Por defecto el primer hogar
+                        setHousehold(householdsData[0]);
                         setFormData((prev) => ({
                             ...prev,
-                            householdId: households[0].id,
+                            householdId: householdsData[0].id,
                         }));
+                    } else {
+                        // En edición, se busca el hogar al que corresponde la mascota
+                        const currentHousehold = householdsData.find((h) => h.id === formData.householdId);
+                        setHousehold(currentHousehold || householdsData[0]);
                     }
                 }
 
@@ -136,7 +143,7 @@ function PetFormPage() {
     // Envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('household:', household);
+        console.log('household:', households);
         console.log('formData:', formData);
 
         // Validaciones básicas
@@ -240,7 +247,7 @@ function PetFormPage() {
                         />
                     </div>
 
-                    {/*Especio y género*/}
+                    {/*Especie y género*/}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-text-dark mb-1">
@@ -354,6 +361,37 @@ function PetFormPage() {
                                 disabled={loading}
                             />
                         </div>
+                    </div>
+
+                    {/* HOGAR */}
+                    <div>
+                        <label className="block text-sm font-medium text-text-dark mb-1">
+                            Hogar <span className="text-primary">*</span>
+                        </label>
+                        <select
+                            name="householdId"
+                            value={formData.householdId}
+                            onChange={(e) => {
+                                // Actualizamos householdId en formData Y el hogar activo
+                                const selected = households.find(
+                                    (h) => h.id === parseInt(e.target.value)
+                                );
+                                setHouseholds(selected || null);
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    householdId: parseInt(e.target.value),
+                                }));
+                            }}
+                            className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-dark"
+                            disabled={loading}
+                        >
+                            <option value="">Selecciona un hogar...</option>
+                            {households.map((h) => (
+                                <option key={h.id} value={h.id}>
+                                    🏠 {h.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     {/*Alergias*/}

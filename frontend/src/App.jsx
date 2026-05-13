@@ -17,6 +17,12 @@ import PetsPage from "./pages/pets/PetsPage.jsx";
 import PetDetailPage from "./pages/pets/PetDetailPage.jsx";
 import PetFormPage from "./pages/pets/PetFormPage.jsx";
 
+// Páginas de hogares
+import HouseholdsPage from "./pages/households/HouseholdsPage.jsx";
+import HouseholdDetailPage from "./pages/households/HouseholdDetailPage.jsx";
+import HouseholdFormPage from "./pages/households/HouseholdFormPage.jsx";
+import InvitationsPage from "./pages/households/InvitationsPage.jsx";
+
 function App() {
   return (
       <BrowserRouter>
@@ -27,7 +33,7 @@ function App() {
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
 
-                  {/*Rutas protegidas*/}
+                  {/*Dashboard*/}
                   <Route path="/dashboard" element={
                       <PrivateRoute>
                           <MainLayout>
@@ -36,6 +42,7 @@ function App() {
                       </PrivateRoute>}
                   />
 
+                  {/*MASCOTAS*/}
                   {/*Lista de mascotas*/}
                   <Route path="/pets" element={
                       <PrivateRoute>
@@ -70,6 +77,56 @@ function App() {
                                   <PetFormPage />
                               </MainLayout>
                           </PrivateRoute>}
+                  />
+
+                  {/*HOGARES*/}
+                  {/*Lista de hogares*/}
+                  <Route path="/households" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <HouseholdsPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  {/*Formulario crear hogar*/}
+                  <Route
+                      path="/households/new" element={
+                          <PrivateRoute>
+                              <MainLayout>
+                                  <HouseholdFormPage />
+                              </MainLayout>
+                          </PrivateRoute>}
+                  />
+
+                  {/*Detalle de hogar*/}
+                  <Route
+                      path="/households/:id" element={
+                          <PrivateRoute>
+                              <MainLayout>
+                                  <HouseholdDetailPage />
+                              </MainLayout>
+                          </PrivateRoute>}
+                  />
+
+                  {/*Formulario editar hogar*/}
+                  <Route
+                      path="/households/:id/edit" element={
+                          <PrivateRoute>
+                              <MainLayout>
+                                  <HouseholdFormPage />
+                              </MainLayout>
+                          </PrivateRoute>}
+                  />
+
+                  {/*Pagina para ver las invitaciones que tiene un usuario*/}
+                  <Route
+                      path="/invitations" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <InvitationsPage />
+                          </MainLayout>
+                      </PrivateRoute>}
                   />
 
                   <Route path="*" element={<NotFoundPage />} />
