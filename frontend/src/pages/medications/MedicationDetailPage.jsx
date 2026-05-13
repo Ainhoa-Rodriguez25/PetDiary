@@ -94,8 +94,14 @@ function MedicationDetailPage() {
                 notes: logNotes.trim() || null,
             });
 
+            const logWithUser = {
+                ...newLog,
+                givenByUserName: newLog.givenByUserName || user.name,
+                givenByUserId:   newLog.givenByUserId   || user.id,
+            };
+
             // Añadimos la toma al inicio del historial sin recargar
-            setHistory(prev => [newLog, ...prev]);
+            setHistory(prev => [logWithUser, ...prev]);
             setLogNotes('');
             setShowLogForm(false);
 
