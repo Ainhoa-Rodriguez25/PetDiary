@@ -4,27 +4,31 @@ import BottomNav from './BottomNav';
 
 function MainLayout({ children }) {
     return (
-        // Contenedor que unifica Navbar, Sidebar y Page
-        <div className="min-h-screen bg-page-bg flex flex-col">
+        <div className="h-screen flex flex-col bg-page-bg">
+
             <Navbar />
 
-            {/*Area inferior: sidebar + contenido en fila*/}
             <div className="flex flex-1 overflow-hidden">
+
+                {/* Sidebar en escritorio */}
                 <div className="hidden md:flex">
                     <Sidebar />
                 </div>
 
-                {/*Contenido columna derecha*/}
-                <main className="flex-1 overflow-auto pb-16 md:pb-0">
+                {/* Contenido con scroll */}
+                <main className="flex-1 overflow-y-auto pb-16 md:pb-0">
                     <div className="p-4 md:p-8">
                         {children}
                     </div>
                 </main>
+
             </div>
 
+            {/* Barra inferior móvil */}
             <div className="flex md:hidden">
                 <BottomNav />
             </div>
+
         </div>
     );
 }

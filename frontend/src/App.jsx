@@ -33,8 +33,11 @@ import MealsPage      from './pages/meals/MealsPage.jsx';
 import MealDetailPage from './pages/meals/MealDetailPage.jsx';
 import MealFormPage   from './pages/meals/MealFormPage.jsx';
 
-// Páginas de paseos
+// Página de paseos
 import WalksPage from './pages/walks/WalksPage.jsx';
+
+// Página de usuario
+import ProfilePage from './pages/ProfilePage.jsx';
 
 function App() {
   return (
@@ -217,6 +220,15 @@ function App() {
                       <PrivateRoute>
                           <MainLayout>
                               <WalksPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  {/* PERFIL USUARIO */}
+                  <Route path="/profile" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <ProfilePage />
                           </MainLayout>
                       </PrivateRoute>}
                   />
