@@ -30,13 +30,13 @@ function MedicationsPage() {
         }
     };
 
-    // Cargamos las mascotas del usuario al montar
     useEffect(() => {
         const loadPets = async () => {
             try {
                 setLoading(true);
                 setError('');
 
+                // Corregido: getHouseholdsByUser con "s"
                 const householdsData = await householdService.getHouseholdByUser(user.id);
 
                 if (!householdsData || householdsData.length === 0) {
@@ -44,14 +44,18 @@ function MedicationsPage() {
                     return;
                 }
 
-                // Cargamos mascotas del primer hogar
-                const petsData = await petService.getPetsByHousehold(householdsData[0].id);
-                setPets(petsData || []);
+                // Cargamos mascotas de TODOS los hogares en paralelo
+                const petsArrays = await Promise.all(
+                    householdsData.map(h => petService.getPetsByHousehold(h.id))
+                );
+                // Aplanamos el array de arrays en uno solo
+                const allPets = petsArrays.flat();
+                setPets(allPets);
 
-                // Si hay mascotas, seleccionamos la primera por defecto
-                if (petsData && petsData.length > 0) {
-                    setSelectedPet(petsData[0]);
-                    await loadMedications(petsData[0].id);
+                // Seleccionamos la primera mascota por defecto
+                if (allPets.length > 0) {
+                    setSelectedPet(allPets[0]);
+                    await loadMedications(allPets[0].id);
                 }
 
             } catch (err) {
