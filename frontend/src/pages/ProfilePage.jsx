@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../hooks/useAuth';
 import userService from '../services/userService';
 
 const formatDate = (dateStr) => {
@@ -12,8 +11,6 @@ const formatDate = (dateStr) => {
 };
 
 function ProfilePage() {
-    const { user, login } = useAuth();
-
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError]     = useState('');
@@ -69,13 +66,19 @@ function ProfilePage() {
 
             const updated = await userService.updateProfile({ name: newName.trim() });
             setProfile(updated);
+
+            // Actualizamos el nombre en localStorage para que
+            // Navbar y Sidebar muestren el nuevo nombre
+            const currentUser = JSON.parse(localStorage.getItem('carepet_user'));
+            if (currentUser) {
+                localStorage.setItem('carepet_user', JSON.stringify({
+                    ...currentUser,
+                    name: updated.name,
+                }));
+            }
+
             setNameSuccess('Nombre actualizado correctamente');
             setShowEditName(false);
-
-            // Actualizamos el nombre en el AuthContext para que
-            // el Sidebar y la Navbar muestren el nuevo nombre
-            // sin necesidad de hacer logout y login
-            await login(profile.email, null, updated);
 
         } catch (err) {
             setNameError('Error al actualizar el nombre.');
