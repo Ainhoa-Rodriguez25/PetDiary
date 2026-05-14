@@ -33,6 +33,9 @@ import MealsPage      from './pages/meals/MealsPage.jsx';
 import MealDetailPage from './pages/meals/MealDetailPage.jsx';
 import MealFormPage   from './pages/meals/MealFormPage.jsx';
 
+// Páginas de paseos
+import WalksPage from './pages/walks/WalksPage.jsx';
+
 function App() {
   return (
       <BrowserRouter>
@@ -205,6 +208,15 @@ function App() {
                       <PrivateRoute>
                           <MainLayout>
                               <MealFormPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  {/* PASEOS */}
+                  <Route path="/walks" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <WalksPage />
                           </MainLayout>
                       </PrivateRoute>}
                   />
