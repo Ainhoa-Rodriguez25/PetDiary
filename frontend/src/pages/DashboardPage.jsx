@@ -33,8 +33,12 @@ function DashboardPage() {
 
                 // Solo se cargan mascotas si hay al menos un hogar
                 if (householdsData && householdsData.length > 0) {
-                    const petsData = await petService.getPetsByHousehold(householdsData[0].id);
-                    setPets(petsData || []);
+                    const petsArrays = await Promise.all(
+                        householdsData.map(h => petService.getPetsByHousehold(h.id))
+                    );
+                    
+                    const allPets = petsArrays.flat();
+                    setPets(allPets);
                 }
             } catch (err) {
                 console.error('Error cargando dashboard:', err);
