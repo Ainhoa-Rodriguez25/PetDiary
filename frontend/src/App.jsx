@@ -23,6 +23,11 @@ import HouseholdDetailPage from "./pages/households/HouseholdDetailPage.jsx";
 import HouseholdFormPage from "./pages/households/HouseholdFormPage.jsx";
 import InvitationsPage from "./pages/households/InvitationsPage.jsx";
 
+// Páginas de medicación
+import MedicationsPage      from './pages/medications/MedicationsPage.jsx';
+import MedicationDetailPage from './pages/medications/MedicationDetailPage.jsx';
+import MedicationFormPage   from './pages/medications/MedicationsFormPage.jsx';
+
 function App() {
   return (
       <BrowserRouter>
@@ -125,6 +130,43 @@ function App() {
                       <PrivateRoute>
                           <MainLayout>
                               <InvitationsPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  {/*MEDICACION*/}
+                  <Route
+                      path="/medications" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <MedicationsPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  <Route
+                      path="/medications/new" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <MedicationFormPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  <Route
+                      path="/medications/:id" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <MedicationDetailPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  <Route
+                      path="/medications/:id/edit" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <MedicationFormPage />
                           </MainLayout>
                       </PrivateRoute>}
                   />

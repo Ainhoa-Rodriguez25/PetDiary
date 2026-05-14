@@ -5,7 +5,7 @@ const menuItems = [
     { to: '/households', icon: '🏡', label: 'Hogares'   },
     { to: '/pets',      icon: '🐾', label: 'Mascotas'  },
     { to: '/meals',     icon: '🍽️', label: 'Comidas'   },
-    { to: '/meds',      icon: '💊', label: 'Medicación'},
+    { to: '/medications', icon: '💊', label: 'Medicación'},
 ];
 
 function BottomNav() {

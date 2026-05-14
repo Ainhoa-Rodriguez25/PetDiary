@@ -10,6 +10,10 @@ import com.tfg.carepet.repository.MedicationLogRepository;
 import com.tfg.carepet.repository.MedicationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.tfg.carepet.model.User;
+import com.tfg.carepet.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,6 +27,7 @@ public class MedicationService {
 
     private final MedicationRepository medicationRepository;
     private final MedicationLogRepository medicationLogRepository;
+    private final UserRepository userRepository;
 
     // Crear medicamento
     public MedicationResponse createMedication(MedicationRequest request) {
@@ -155,9 +160,22 @@ public class MedicationService {
             );
         }
 
-        // Crear log
+        // Obtener el usuario autenticado del SecurityContextHolder
+        // El JwtAuthenticationFilter ya lo puso ahí al validar el token
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        // El username en nuestro sistema es el userId (ver JwtAuthenticationFilter)
+        Long userId = Long.parseLong(userDetails.getUsername());
+        User currentUser = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Crear log con usuario real
         MedicationLog log = new MedicationLog();
         log.setMedicationId(request.getMedicationId());
+        log.setGivenByUserId(currentUser.getId());
 
         if (request.getGivenAt() != null && !request.getGivenAt().isEmpty()) {
             log.setGivenAt(LocalDateTime.parse(request.getGivenAt()));
@@ -165,7 +183,6 @@ public class MedicationService {
             log.setGivenAt(LocalDateTime.now());
         }
 
-        log.setGivenByUserId(null); // Se debe cambiar!!!
         log.setNotes(request.getNotes());
 
         // Guardar en la BD
@@ -212,17 +229,26 @@ public class MedicationService {
         return response;
     }
 
-    private MedicationLogResponse convertToLogResponse(MedicationLog log) {
+    private MedicationLogResponse convertToLogResponse(MedicationLog log, User user) {
         MedicationLogResponse response = new MedicationLogResponse();
 
         response.setId(log.getId());
         response.setMedicationId(log.getMedicationId());
         response.setGivenByUserId(log.getGivenByUserId());
-        response.setGivenByUserName(null);
+        response.setGivenByUserName(user != null ? user.getName() : null);
         response.setGivenAt(log.getGivenAt());
         response.setNotes(log.getNotes());
         response.setCreatedAt(log.getCreatedAt());
 
         return response;
+    }
+
+    // Versión para el historial — busca el usuario por id
+    private MedicationLogResponse convertToLogResponse(MedicationLog log) {
+        User user = null;
+        if (log.getGivenByUserId() != null) {
+            user = userRepository.findById(log.getGivenByUserId()).orElse(null);
+        }
+        return convertToLogResponse(log, user);
     }
 }
