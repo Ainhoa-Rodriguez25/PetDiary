@@ -18,5 +18,7 @@ public class WalkResponse {
     private LocalDateTime walkedAt;
     private Integer duration;
     private String notes;
+    private Boolean hadPee;
+    private Boolean hadPoop;
     private LocalDateTime createdAt;
 }
