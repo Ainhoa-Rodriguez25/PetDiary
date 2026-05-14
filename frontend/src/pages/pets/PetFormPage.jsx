@@ -376,7 +376,7 @@ function PetFormPage() {
                                 const selected = households.find(
                                     (h) => h.id === parseInt(e.target.value)
                                 );
-                                setHouseholds(selected || null);
+                                setHousehold(selected || null);
                                 setFormData((prev) => ({
                                     ...prev,
                                     householdId: parseInt(e.target.value),
