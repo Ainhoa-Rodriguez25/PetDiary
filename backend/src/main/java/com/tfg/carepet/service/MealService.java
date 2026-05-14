@@ -1,6 +1,5 @@
 package com.tfg.carepet.service;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 import com.tfg.carepet.dto.MealLogRequest;
 import com.tfg.carepet.dto.MealLogResponse;
 import com.tfg.carepet.dto.MealRequest;
@@ -11,6 +10,10 @@ import com.tfg.carepet.repository.MealLogRepository;
 import com.tfg.carepet.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.tfg.carepet.model.User;
+import com.tfg.carepet.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +27,7 @@ public class MealService {
 
     private final MealRepository mealRepository;
     private final MealLogRepository mealLogRepository;
+    private final UserRepository userRepository;
 
     // Crear comida
     public MealResponse createMeal(MealRequest request) {
@@ -111,36 +115,45 @@ public class MealService {
 
     // Registrar que se dio una comida
     public MealLogResponse logMeal(MealLogRequest request) {
-        // Buscar comida
-        Meal meal = mealRepository.findById(request.getMealId()).orElseThrow(() -> new RuntimeException("Comida no encontrada"));
+        Meal meal = mealRepository.findById(request.getMealId())
+                .orElseThrow(() -> new RuntimeException("Comida no encontrada"));
 
-        // Validar cuantas veces se dió de comer en el mismo dia
         LocalDate today = LocalDate.now();
-
         Long count = mealLogRepository.countByMealIdAndDate(request.getMealId(), today);
 
         if (count >= meal.getMealsPerDay()) {
-            throw new RuntimeException("La comida ya se administró " + count + " vez/veces hoy. " + "Según la configuración (mealsPerDay = " + meal.getMealsPerDay() + "), " + "solo se puede administrar " + meal.getMealsPerDay() + " vez/veces al día.");
+            throw new RuntimeException(
+                    "La comida ya se administró " + count + " vez/veces hoy. " +
+                            "Según la configuración (mealsPerDay = " + meal.getMealsPerDay() + "), " +
+                            "solo se puede administrar " + meal.getMealsPerDay() + " vez/veces al día."
+            );
         }
 
-        // Crear log
+        // Obtener usuario autenticado del SecurityContextHolder
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        Long userId = Long.parseLong(userDetails.getUsername());
+        User currentUser = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
         MealLog log = new MealLog();
         log.setMealId(request.getMealId());
+        log.setGivenByUserId(currentUser.getId());
 
-        // Determinar cuando se administró
         if (request.getGivenAt() != null && !request.getGivenAt().isEmpty()) {
             log.setGivenAt(LocalDateTime.parse(request.getGivenAt()));
         } else {
             log.setGivenAt(LocalDateTime.now());
         }
 
-        log.setGivenByUserId(null);
         log.setNotes(request.getNotes());
 
-        // Guardar
         MealLog savedLog = mealLogRepository.save(log);
 
-        return convertToLogResponse(savedLog);
+        return convertToLogResponse(savedLog, currentUser);
     }
 
     // Obtener historial de una comida
@@ -182,17 +195,24 @@ public class MealService {
     }
 
     // Convertir MealLog Entity a DTO
-    private MealLogResponse convertToLogResponse(MealLog log) {
+    private MealLogResponse convertToLogResponse(MealLog log, User user) {
         MealLogResponse response = new MealLogResponse();
-
         response.setId(log.getId());
         response.setMealId(log.getMealId());
         response.setGivenByUserId(log.getGivenByUserId());
-        response.setGivenByUserName(null);
+        response.setGivenByUserName(user != null ? user.getName() : null);
         response.setGivenAt(log.getGivenAt());
         response.setNotes(log.getNotes());
         response.setCreatedAt(log.getCreatedAt());
-
         return response;
+    }
+
+    // Versión para el historial — busca el usuario por id
+    private MealLogResponse convertToLogResponse(MealLog log) {
+        User user = null;
+        if (log.getGivenByUserId() != null) {
+            user = userRepository.findById(log.getGivenByUserId()).orElse(null);
+        }
+        return convertToLogResponse(log, user);
     }
 }

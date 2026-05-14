@@ -28,6 +28,11 @@ import MedicationsPage      from './pages/medications/MedicationsPage.jsx';
 import MedicationDetailPage from './pages/medications/MedicationDetailPage.jsx';
 import MedicationFormPage   from './pages/medications/MedicationsFormPage.jsx';
 
+// Páginas de comidas
+import MealsPage      from './pages/meals/MealsPage.jsx';
+import MealDetailPage from './pages/meals/MealDetailPage.jsx';
+import MealFormPage   from './pages/meals/MealFormPage.jsx';
+
 function App() {
   return (
       <BrowserRouter>
@@ -167,6 +172,39 @@ function App() {
                       <PrivateRoute>
                           <MainLayout>
                               <MedicationFormPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  {/* COMIDAS */}
+                  <Route path="/meals" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <MealsPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  <Route path="/meals/new" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <MealFormPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  <Route path="/meals/:id" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <MealDetailPage />
+                          </MainLayout>
+                      </PrivateRoute>}
+                  />
+
+                  <Route path="/meals/:id/edit" element={
+                      <PrivateRoute>
+                          <MainLayout>
+                              <MealFormPage />
                           </MainLayout>
                       </PrivateRoute>}
                   />
