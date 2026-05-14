@@ -34,6 +34,12 @@ public class Walk {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    @Column(name = "had_pee")
+    private Boolean hadPee;
+
+    @Column(name = "had_poop")
+    private Boolean hadPoop;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

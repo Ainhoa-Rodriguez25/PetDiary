@@ -19,4 +19,8 @@ public class WalkRequest {
     private String duration;
 
     private String notes;
+
+    private Boolean hadPee;
+
+    private Boolean hadPoop;
 }
