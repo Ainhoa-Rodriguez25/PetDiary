@@ -20,27 +20,41 @@ function WalkCard({ walk, onDelete }) {
                         <span className="text-2xl">🏃</span>
                     </div>
                     <div>
-                        {/* Fecha y hora del paseo */}
                         <p className="font-semibold text-text-dark">
                             {formatDateTime(walk.walkedAt)}
                         </p>
-                        {/* Quién llevó a pasear */}
                         <p className="text-sm text-text-medium">
                             {walk.walkedByUserName || 'Usuario desconocido'}
                         </p>
                     </div>
                 </div>
 
-                {/* Duración si existe */}
+                {/* Duración */}
                 {walk.duration && (
-                    <div className="flex flex-col items-end">
+                    <div className="flex flex-col items-end flex-shrink-0">
                         <span className="text-2xl font-bold text-primary">
                             {walk.duration}
                         </span>
-                        <span className="text-xs text-text-light">minutos</span>
+                        <span className="text-xs text-text-light">min</span>
                     </div>
                 )}
             </div>
+
+            {/* BADGES pipí y caca */}
+            {(walk.hadPee || walk.hadPoop) && (
+                <div className="flex gap-2">
+                    {walk.hadPee && (
+                        <span className="flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full bg-blue-50 text-blue-500">
+                            💧 Pipí
+                        </span>
+                    )}
+                    {walk.hadPoop && (
+                        <span className="flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-full bg-amber-50 text-amber-600">
+                            💩 Caca
+                        </span>
+                    )}
+                </div>
+            )}
 
             {/* NOTAS */}
             {walk.notes && (
