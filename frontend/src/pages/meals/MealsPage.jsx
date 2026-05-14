@@ -35,7 +35,7 @@ function MealsPage() {
                 setLoading(true);
                 setError('');
 
-                const householdsData = await householdService.getHouseholdsByUser(user.id);
+                const householdsData = await householdService.getHouseholdByUser(user.id);
 
                 if (!householdsData || householdsData.length === 0) {
                     setLoading(false);
