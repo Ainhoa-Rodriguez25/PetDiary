@@ -59,15 +59,18 @@ function MedicationFormPage() {
                 // Cargamos mascotas para el selector
                 const householdsData = await householdService.getHouseholdByUser(user.id);
                 if (householdsData && householdsData.length > 0) {
-                    const petsData = await petService.getPetsByHousehold(householdsData[0].id);
-                    setPets(petsData || []);
+                    // Cargamos mascotas de TODOS los hogares
+                    const petsArrays = await Promise.all(
+                        householdsData.map(h => petService.getPetsByHousehold(h.id))
+                    );
+                    const allPets = petsArrays.flat();
+                    setPets(allPets);
 
-                    // Si viene petId en la URL lo preseleccionamos
                     const petIdFromUrl = searchParams.get('petId');
                     if (petIdFromUrl && !isEditing) {
                         setFormData(prev => ({ ...prev, petId: parseInt(petIdFromUrl) }));
-                    } else if (!isEditing && petsData?.length > 0) {
-                        setFormData(prev => ({ ...prev, petId: petsData[0].id }));
+                    } else if (!isEditing && allPets.length > 0) {
+                        setFormData(prev => ({ ...prev, petId: allPets[0].id }));
                     }
                 }
 
