@@ -206,9 +206,8 @@ public class MedicationService {
         response.setName(medication.getName());
         response.setDosage(medication.getDosage());
         response.setNotes(medication.getNotes());
-        response.setActive(medication.getActive());
         response.setCreatedAt(medication.getCreatedAt());
-        response.setUpdatedAt((medication.getUpdatedAt()));
+        response.setUpdatedAt(medication.getUpdatedAt());
         response.setFrequency(medication.getFrequency().name());
         response.setTimeOfDay(medication.getTimeOfDay().toString());
 
@@ -224,6 +223,12 @@ public class MedicationService {
 
         if (medication.getEndDate() != null) {
             response.setEndDate(medication.getEndDate().toString());
+            // Si la fecha de fin ya pasó → inactiva automáticamente
+            boolean isExpired = medication.getEndDate().isBefore(LocalDate.now());
+            response.setActive(!isExpired);
+        } else {
+            // Sin fecha de fin → usamos el campo active de la BD
+            response.setActive(medication.getActive());
         }
 
         return response;
