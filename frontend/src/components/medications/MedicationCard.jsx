@@ -32,22 +32,21 @@ function MedicationCard({ medication, onDelete }) {
         }`}>
 
             {/* CABECERA */}
-            <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
+            <div className="flex items-start justify-between gap-2">
+                <div className="flex items-center gap-3 min-w-0">
                     <div className="w-12 h-12 rounded-full bg-primary-bg flex items-center justify-center flex-shrink-0">
                         <span className="text-2xl">💊</span>
                     </div>
-                    <div>
-                        <h3 className="font-semibold text-text-dark text-lg leading-tight">
+                    <div className="min-w-0">
+                        <h3 className="font-semibold text-text-dark text-lg leading-tight truncate">
                             {medication.name}
                         </h3>
-                        <p className="text-sm text-text-medium">
+                        <p className="text-sm text-text-medium truncate">
                             {medication.dosage}
                         </p>
                     </div>
                 </div>
 
-                {/* Badge de estado activo/inactivo */}
                 <span className={`text-xs font-medium px-3 py-1 rounded-full flex-shrink-0 ${
                     isActive
                         ? 'bg-accent-bg text-accent'
