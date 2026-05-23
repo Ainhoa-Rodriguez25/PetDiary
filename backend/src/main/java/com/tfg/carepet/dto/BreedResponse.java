@@ -1,0 +1,15 @@
+package com.tfg.carepet.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BreedResponse {
+
+    private Long id;
+    private String name;
+    private String species;
+}

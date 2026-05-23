@@ -1,39 +1,19 @@
-# Archivos temporales de Microsoft Office
-~$*
-*.tmp
-*.bak
-Thumbs.db
-.DS_Store
-
-# ================================
-# IntelliJ IDEA
-# ================================
+# IDEs y Editores (Esto cubrirá tanto raíz, como backend y frontend)
 .idea/
 *.iml
-*.iws
-*.ipr
+.vscode/
 
-# ================================
-# Node modules
-# ================================
+# Dependencias y builds
 node_modules/
-frontend/node_modules/
+dist/
+build/
+target/
 
-# ================================
-# Build outputs
-# ================================
-frontend/dist/
-backend/target/
-
-# ================================
-# Logs
-# ================================
-*.log
-logs/
-
-# ================================
-# Variables de entorno
-# ================================
+# Variables de entorno y Logs
 .env
-.env.local
-.env.production
+*.log
+
+# Archivos de Sistema
+.DS_Store
+Thumbs.db
+docs/~WRL0299.tmp

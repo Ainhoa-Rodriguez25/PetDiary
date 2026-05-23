@@ -1,0 +1,62 @@
+services:
+
+  # ================================
+  # BASE DE DATOS — MySQL 8
+  # ================================
+  mysql:
+    image: mysql:8.0
+    container_name: carepet-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Marzo_20
+      MYSQL_DATABASE: carepet
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/carepet.sql:/docker-entrypoint-initdb.d/carepet.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pMarzo_20"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ================================
+  # BACKEND — Spring Boot
+  # ================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: carepet-backend
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/carepet?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Marzo_20
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      JWT_SECRET: mi-secret-key-super-segura-para-desarrollo-cambiar-en-produccion-minimo-256-bits-de-longitud
+      JWT_EXPIRATION: 604800000
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # ================================
+  # FRONTEND — React + Nginx
+  # ================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: carepet-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
