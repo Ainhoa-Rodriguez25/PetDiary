@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || '';
+// En producción apunta al backend de Railway
+// En local el proxy de Vite redirige /api a localhost:8080
+const isProduction = window.location.hostname !== 'localhost';
+const BASE_URL = isProduction
+    ? 'https://carepet-production.up.railway.app'
+    : '';
 
 const api = axios.create({
     baseURL: `${BASE_URL}/api`,
